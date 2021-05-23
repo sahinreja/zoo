@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.css"> -->
+    <link rel="stylesheet" href="Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <title>Animals In Zoo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 120vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        
+        .load {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            flex-direction: column;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid blue;
+            border-right: 16px solid green;
+            border-bottom: 16px solid red;
+            border-left: 16px solid pink;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .main_container {
+            width: 100%;
+            height: 100%;
+            background: url("image/cat.jpg");
+            background-size: cover;
+            object-fit: cover;
+            /* background-position: right bottom, left top; */
+            background-repeat: no-repeat;
+            /* background-repeat: no-repeat, repeat; */
+            position: relative;
+        }
+
+        .main_container::before {
+            content: "";
+            position: absolute;
+            background: url("image/bg_img6.jpg");
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100%;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            mix-blend-mode: lighten;
+            opacity: 0.5;
+        }
+
+        .container-fluid {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            /* background-color: red; */
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            transition: 0.3s ease-in-out;
+            color: #000;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            visibility: hidden;
+
+        }
+
+        .btns_show {
+            visibility: visible;
+        }
+
+        .list {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 3rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: teal;
+            padding: 0.5rem 1.8rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            border-radius: 0.3rem;
+            /* font-weight: bold; */
+        }
+
+        li:hover {
+            background-color: tomato;
+        }
+
+        .h_list,
+        .c_list {
+            visibility: hidden;
+        }
+
+        .show_hlist,
+        .show_clist {
+            visibility: visible;
+        }
+
+        /* .card{
+            background: transparent;
+            color:blue;
+            color: #ffffff;
+            font-weight: bold;
+        } */
+        /*
+        .card-header{
+            color: #ffffff;
+        } */
+        /* .card{
+            height: 100vh;
+        } */
+        .card-top-img {
+            height: 300px;
+        }
+
+        h1:hover {
+            opacity: 0.5;
+            text-transform: capitalize;
+            color: teal;
+        }
+    </style>
+</head>
+
+<body onload="myFunction()">
+    <div class="load" id="load">
+        <small>Please Wait</small>
+        <div class="loader" id="loader">
+        </div>
+    </div>
+
+    <div class="main_container">
+
+    </div>
+    <div class="container-fluid">
+        <h1 class="text-center">Welcome to Zoo</h1>
+        <div class="row">
+            <div class="col-md-6 col-12  text-center">
+                <button class="btn btn-info">Animals</button>
+                <div class="btns">
+                    <button class="btn btn-success bt">Harnivorous</button>
+                    <button class="btn btn-danger bt">Carnivorous</button>
+                </div>
+                <div class="list">
+                    <div class="h_list" id="hl">
+                        <ul class="animalList">
+                            <li class="animal">Elephant</li>
+                            <li class="animal">Giraffe</li>
+                            <li class="animal">Horse</li>
+                            <li class="animal">Rhinoceris</li>
+                        </ul>
+                    </div>
+                    <div class="c_list">
+                        <ul class="animalList">
+                            <li class="animal">Lion</li>
+                            <li class="animal">Tiger</li>
+                            <li class="animal">Alligator</li>
+                            <li class="animal">Bear</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mx-auto  show_animal_data">
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    -->
+
+    <script>
+        function myFunction() {
+            setTimeout(() => {
+               var load =  document.getElementById('load')
+               load.innerHTML = "";
+                load.classList.remove('load');
+                var loader = document.getElementById('loader')
+                loader.classList.remove('loader');
+            }, 3000)
+        }
+        const btn = document.querySelector('.btn-info');
+        btn.addEventListener("click", () => {
+            const btns = document.querySelector('.btns');
+            btns.classList.add("btns_show");
+            const bt = document.querySelectorAll('.bt');
+            bt.forEach((btnValue) => {
+                btnValue.addEventListener("click", (e) => {
+                    const btnText = e.currentTarget.innerHTML;
+                    if (btnText == "Harnivorous") {
+                        document.querySelector(".h_list").classList.toggle('show_hlist');
+                    } else {
+                        document.querySelector(".c_list").classList.toggle('show_clist');
+                    }
+                })
+            })
+
+            const animal = document.querySelectorAll('.animal');
+            console.log(animal);
+            animal.forEach((animalBtn) => {
+                animalBtn.addEventListener("click",
+                    function (e) {
+                        const animalbntText = e.currentTarget.innerHTML;
+                        //  (e) => {
+                        //     // console.log(animalBtn);
+                        //     const animalbntText = e.currentTarget.innerHTML;
+                        // console.log(e.currentTarget.innerHTML);
+
+                        class Animals {
+                            display() {
+                                return 0;
+                            }
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+                        }
+                        class Harnivorous extends Animals {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+                            display() {
+                                return this.name;
+                            }
+
+
+                        }
+                        class Carnivorous extends Animals {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+
+                        }
+
+                        class Elephant extends Harnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+
+                        }
+                        class Giraffe extends Harnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return `${this.name}  ${this.nickName}`;
+                            }
+
+
+                        }
+                        class Horse extends Harnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+
+                        }
+                        class Rhinoceris extends Harnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+                        }
+
+                        class Lion extends Carnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+                        }
+                        class Tiger extends Carnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+                        }
+                        class Alligator extends Carnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+                        }
+                        class Bear extends Carnivorous {
+                            constructor(name, nickName, weight, height, food, img, sound) {
+                                super();
+                                this.name = name;
+                                this.nickName = nickName;
+                                this.weight = weight;
+                                this.height = height;
+                                this.food = food;
+                                this.img = img;
+                                this.sound = sound;
+                            }
+
+                            display() {
+                                return this.name;
+                            }
+
+                        }
+                        const classObjArray = [
+                            new Elephant("Elephant", "Liton", " Asian elephant: 4,000 kgs, African bush elephant: 6,000 kg, African forest elephant: 2,700 kgs.", " Asian elephant: 2.8 meters, African bush elephant: 3.2 meters.", "Elephants eat roots, grasses, fruit, and bark. An adult elephant can consume up to 300 pounds of food in a single day.", "image/Elephant.jpg", "elephant.mp3"),
+                            new Giraffe("Giraffe", "Fantom", "Weight upto 1400 kgs.", "Giraffes are the tallest land animals. Female giraffes are up to 14 feet tall and weigh up to 1,500 pounds. Meanwhile, males are up to 18 feet tall.", "Giraffes eat a variety of fresh acacia leaves hung high in artificial food “trees,” as well as hay, carrots, and low-starch, high-fiber biscuits. Giraffes are ruminants and have a stomach with four compartments that digests the leaves they eat.", "image/Giraffe.jpg", "giraffe.mp3"),
+                            new Horse("Horse", "Jack", "They can weigh from about 700 to 1,000 kilograms (1,540 to 2,200 lb).", "Heavy or draft horses are usually at least 16 hands (64 inches, 163 cm) high and can be as tall as 18 hands (72 inches, 183 cm) high.", "In simple terms, horses eat grass and hay or haylage, but salt, concentrates and fruits or vegetables can also enhance their diets, depending on the required work", "image/horse.jpg", "horse.mp3"),
+                            new Rhinoceris("Rhinoceris", "Guddu", " White rhinoceros: 2,300 kg, Indian rhinoceros: 2,200 kg, Black rhinoceros: 800 – 1,400 kg", " White rhinoceros: 1.7 – 1.9 m, Indian rhinoceros: 1.6 – 1.9 m, Black rhinoceros: 1.3 – 1.8 m", "Black rhinos are browsers that get most of their sustenance from eating trees and bushes. They use their lips to pluck leaves and fruit from the branches. White rhinos graze on grasses, walking with their enormous heads and squared lips lowered to the ground.", "image/Rhinoceris.jpg", "rhinoceris.mp3"),
+                            new Lion("Lion", "Bablu", "Male: 190 kg (Adult), Female: 130 kg (Adult)", "Male: 1.2 m (Adult, At Shoulder), Female: 1.1 m (Adult, At Shoulder)", "Lions are carnivorous animals that only eat meat. A carnivore is an animal that scavenges or hunts animals to gain energy and nutrients from their respective flesh and tissue.", "image/lion.jpg", "lion.wav"),
+                            new Tiger("Tiger", "Munna", "Male: 90 – 310 kg (Adult), Female: 65 – 180 kg (Adult)", "70 – 120 cm (Adult, At Shoulder)", "The Siberian Tiger's favourite foods include elk, deer, wild boar, lynx and bear; wild boar makes up more than half of its diet. They will also eat fish, rabbits and others", "image/tiger.jpg", "tiger.mp3"),
+                            new Alligator("Alligator", "Jack", "Exceptionally large males can reach a weight of nearly half a ton or 1,000 pounds (454 kilograms).", "The average adult size for a female is 8.2 feet (2.6 meters), and the average size for a male is 11.2 feet (3.4 meters).", "young, alligators eat fish, insects, snails, crustaceans, and worms. As they mature, progressively larger prey is taken, including larger fish such as gar, turtles etc", "image/Alligator.jpg", "alligator.mp3"),
+                            new Bear("Bear", "Don", " Polar bear: 450 kg, Giant panda: 70 – 100 kg, MORE Encyclopedia of Life", " Polar bear: 1.8 – 2.4 m, Giant panda: 60 – 90 cm, Brown bear: 70 – 150 cm", "They eat insects, carrion, fresh meat, and fish etc", "image/Bear.jpg", "bear.mp3")
+                        ]
+
+                        function evaluate(classObjArray) {
+                            classObjArray.map((value) => {
+                                console.log(value.name);
+                                if (value.name == animalbntText) {
+                                    console.log(value.height);
+                                    return document.querySelector('.show_animal_data').innerHTML = `
+                                
+                                <div class="card">
+                                    <img src="${value.img}" class="card-top-img img-fluid" alt="NOImage">
+                                    <div class="card-body">
+                                        <h3 class="card-header">${value.name}</h3>
+                                        <p class="card-text">Nick Name : ${value.nickName}</p>
+                                        <p class="card-text">Weight : ${value.weight}</p>
+                                        <p class="card-text">Height : ${value.height}</p>
+                                        <p class="card-text">Food : ${value.food}</p>
+                                        <p class="card-text">Sound : </p>
+                                            <audio controls>
+                                              <source src="sound/${value.sound}" type="audio/mpeg">
+                                           </audio>
+                                    </div>    
+                                </div>
+                                
+                                
+                                `
+                                }
+                            })
+                        }
+                        evaluate(classObjArray);
+
+                    })
+            })
+        })
+
+        // class Animals {
+        //     display() {
+        //         return 0;
+        //     }
+        //     constructor(name, nickName, weight, height, food, img, sound) {
+        //         this.name = name;
+        //         this.nickName = nickName;
+        //         this.weight = weight;
+        //         this.height = height;
+        //         this.food = food;
+        //         this.img = img;
+        //         this.sound = sound;
+        //     }
+        // }
+        // class Harnivorous extends Animals {
+        //     constructor(name, nickName, weight, height, food, img, sound) {
+        //         super();
+        //         this.name = name;
+        //         this.nickName = nickName;
+        //         this.weight = weight;
+        //         this.height = height;
+        //         this.food = food;
+        //         this.img = img;
+        //         this.sound = sound;
+        //     }
+
+        // }
+        // class Carnivorous extends Animals {
+
+        // }
+
+        // class Elephant extends Harnivorous {
+
+        // }
+        // class Giraffe extends Harnivorous {
+
+        // }
+        // class Horse extends Harnivorous {
+
+        // }
+        // class Rhinoceris extends Harnivorous {
+
+        // }
+    </script>
+</body>
+
+</html>
